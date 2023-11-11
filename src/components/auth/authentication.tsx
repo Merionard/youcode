@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, LogIn, LogOut } from "lucide-react";
+import { Loader2, LogIn, LogOut, User2 } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import {
   AlertDialog,
@@ -16,10 +16,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useMutation } from "@tanstack/react-query";
 import { Loader } from "../ui/Loader";
+import Link from "next/link";
+import { LogOutButton } from "./LogOutButton";
 
 export const Authentication = () => {
   const { data: session } = useSession();
@@ -37,6 +40,13 @@ export const Authentication = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link href={`/myAccount`}>
+                  <User2 className="mr-2" size={12} />
+                  Mon profil
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <AlertDialogTrigger asChild>
                 <DropdownMenuItem>
                   <Button>
@@ -53,17 +63,7 @@ export const Authentication = () => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Annuler</AlertDialogCancel>
-                <Button
-                  variant={"destructive"}
-                  onClick={() => mutation.mutate()}
-                >
-                  {mutation.isPending ? (
-                    <Loader className="mr-2" size={12} />
-                  ) : (
-                    <LogOut size={12} className="mr-2" />
-                  )}
-                  Déconnexion
-                </Button>
+                <LogOutButton />
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
