@@ -50,6 +50,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+  lessons       Lesson[]
 }
 
 model VerificationToken {
@@ -59,4 +60,13 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Lesson {
+  id String @id @default(cuid())
+  name String @unique
+  image String
+  userId String
+  description String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
