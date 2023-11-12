@@ -1,14 +1,23 @@
-"use client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { fetchUserLessionByIdUser } from "@/db/userRepository";
+import { getRequiredAuthSession } from "@/lib/auth";
+import Link from "next/link";
 
-import { prisma } from "@/db/prisma";
-import { useSession } from "next-auth/react";
-
-export default function ListLesson() {
-  const session = useSession();
-  if (!session || !session.data) {
-    throw new Error("Vous devez être connecté pour accéder à ce contenu");
-  }
-  const user = session.data.user;
-
-  return <div>page</div>;
+export default async function ListLesson() {
+  const session = await getRequiredAuthSession();
+  const lessons = await fetchUserLessionByIdUser(session.user.id);
+  return (
+    <div className="flex gap-3 justify-center mt-5 ">
+      {lessons.map((lesson) => (
+        <Link key={lesson.name} href={`/lesson/${lesson.id}`}>
+          <Card className="flex-grow">
+            <CardHeader>
+              <CardTitle>{lesson.name}</CardTitle>
+              <CardContent>{lesson.description}</CardContent>
+            </CardHeader>
+          </Card>
+        </Link>
+      ))}
+    </div>
+  );
 }
