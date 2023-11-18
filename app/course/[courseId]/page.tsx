@@ -25,12 +25,12 @@ export default async function Lesson({
   params,
   searchParams,
 }: {
-  params: { id: string };
+  params: { courseId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const session = await getRequiredAuthSession();
   const page = Number(searchParams.page ?? 1);
-  const course = await selectCourseById(params.id, session.user.id, page);
+  const course = await selectCourseById(params.courseId, session.user.id, page);
 
   return (
     <Layout>
@@ -69,7 +69,10 @@ export default async function Lesson({
                   ))}
                 </TableBody>
               </Table>
-              <PaginationButton baseUrl={`/course/${params.id}`} page={page} />
+              <PaginationButton
+                baseUrl={`/course/${params.courseId}`}
+                page={page}
+              />
             </CardContent>
           </Card>
           <Card className="flex-1">
@@ -94,13 +97,13 @@ export default async function Lesson({
               </p>
               <div className="flex flex-col gap-2 mt-2">
                 <Link
-                  href={`/course/${params.id}/edit`}
+                  href={`/course/${params.courseId}/edit`}
                   className={buttonVariants({ variant: "outline" })}
                 >
                   Editer
                 </Link>
                 <Link
-                  href={`/course/${params.id}/edit`}
+                  href={`/course/${params.courseId}/lessons`}
                   className={buttonVariants({ variant: "outline" })}
                 >
                   Editer leçons
