@@ -18,7 +18,7 @@ import {
 import { prisma } from "@/db/prisma";
 import { getRequiredAuthSession } from "@/lib/auth";
 import Link from "next/link";
-import { selectCourseById } from "../query";
+import { selectCourseById } from "./query";
 import { PaginationButton } from "@/components/features/pagination/paginationButton";
 
 export default async function Lesson({
