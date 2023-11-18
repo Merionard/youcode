@@ -18,22 +18,20 @@ import {
 import { prisma } from "@/db/prisma";
 import { getRequiredAuthSession } from "@/lib/auth";
 import Link from "next/link";
+import { selectCourseById } from "../query";
+import { PaginationButton } from "@/components/features/pagination/paginationButton";
 
-export default async function Lesson({ params }: { params: { id: string } }) {
+export default async function Lesson({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const session = await getRequiredAuthSession();
-  const course = await prisma.course.findUnique({
-    where: { id: params.id, creatorId: session.user.id },
-    include: {
-      _count: {
-        select: { users: true, lessons: true },
-      },
-      users: {
-        select: {
-          user: { select: { name: true, email: true, image: true, id: true } },
-        },
-      },
-    },
-  });
+  const page = Number(searchParams.page ?? 1);
+  const course = await selectCourseById(params.id, session.user.id, page);
+
   return (
     <Layout>
       <LayoutHeader>
@@ -71,6 +69,7 @@ export default async function Lesson({ params }: { params: { id: string } }) {
                   ))}
                 </TableBody>
               </Table>
+              <PaginationButton baseUrl={`/course/${params.id}`} page={page} />
             </CardContent>
           </Card>
           <Card className="flex-1">
