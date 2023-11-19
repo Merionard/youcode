@@ -6,6 +6,7 @@ import { Typography } from "../ui/Typography";
 import { SiteConfig } from "@/lib/site-config";
 import { Button } from "../ui/button";
 import { Authentication } from "../auth/authentication";
+import { Menu } from "./menu";
 
 export function Header() {
   return (
@@ -16,11 +17,8 @@ export function Header() {
             {SiteConfig.title}
           </Typography>
         </div>
-        <div className="flex flex-1 items-center gap-5 justify-center">
-          <Typography as={Link} variant={"link"} href={"/courses"}>
-            Les cours
-          </Typography>
-        </div>
+
+        <Menu />
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
