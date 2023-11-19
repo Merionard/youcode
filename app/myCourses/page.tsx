@@ -4,6 +4,7 @@ import {
   LayoutHeader,
   LayoutTitle,
 } from "@/components/layout/Layout";
+import { Typography } from "@/components/ui/Typography";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
   Table,
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/table";
 import { prisma } from "@/db/prisma";
 import { getRequiredAuthSession } from "@/lib/auth";
+import Link from "next/link";
 
 export default async function MyCourses() {
   const session = await getRequiredAuthSession();
@@ -50,18 +52,24 @@ export default async function MyCourses() {
           </TableHeader>
           <TableBody>
             {data.map((course) => (
-              <TableRow key={course.id}>
-                <TableCell className="flex gap-1 content-center">
-                  <Avatar className="rounded">
-                    {course.course.image && (
-                      <AvatarImage
-                        src={course.course.image}
-                        alt={course.course.name ?? "test"}
-                      />
-                    )}
-                  </Avatar>
-                  {course.course.name}
-                </TableCell>
+              <TableRow key={course.course.id}>
+                <Typography
+                  as={Link}
+                  href={`/course/${course.course.id}`}
+                  variant="large"
+                >
+                  <TableCell className="flex gap-1 content-center">
+                    <Avatar className="rounded">
+                      {course.course.image && (
+                        <AvatarImage
+                          src={course.course.image}
+                          alt={course.course.name ?? "test"}
+                        />
+                      )}
+                    </Avatar>
+                    {course.course.name}
+                  </TableCell>
+                </Typography>
                 <TableCell>{course.course.creator.name}</TableCell>
               </TableRow>
             ))}
