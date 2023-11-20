@@ -25,5 +25,7 @@ export const getRequiredAuthSession = async (
   if (!session?.user.id) {
     throw new Error("User not Found");
   }
-  return session as { user: { id: string; email?: string; image?: string } };
+  return session as {
+    user: { id: string; email?: string; image?: string; name: string };
+  };
 };

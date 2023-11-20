@@ -62,7 +62,7 @@ export const Authentication = () => {
                 </AlertDialogTitle>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <LogOutButton />
               </AlertDialogFooter>
             </AlertDialogContent>
