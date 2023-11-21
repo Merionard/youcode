@@ -16,8 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { submitCourseForm } from "./action";
-import { revalidatePath } from "next/cache";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const formSchema = z.object({
   name: z.string().min(2).max(30),
@@ -40,6 +40,8 @@ export const CourseForm = (props: { course: Course }) => {
     console.log(data);
     await submitCourseForm(data, props.course.id);
     router.push(`/course/${props.course.id}`);
+    router.refresh();
+    toast.success("Cours édité avec succès");
   }
 
   return (
