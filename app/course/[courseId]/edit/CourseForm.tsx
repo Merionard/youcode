@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { submitCourseForm } from "./action";
+import { safeSubmitCourseForm, submitCourseForm } from "./action";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -23,6 +23,7 @@ export const formSchema = z.object({
   name: z.string().min(2).max(30),
   presentation: z.string().min(10).max(50),
   imageUrl: z.string().url(),
+  courseId: z.string(),
 });
 
 export const CourseForm = (props: { course: Course }) => {
@@ -33,15 +34,21 @@ export const CourseForm = (props: { course: Course }) => {
       name: props.course.name,
       imageUrl: props.course.image,
       presentation: props.course.presentation,
+      courseId: props.course.id,
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
-    await submitCourseForm(data, props.course.id);
-    router.push(`/course/${props.course.id}`);
-    router.refresh();
-    toast.success("Cours édité avec succès");
+  async function onSubmit(formData: z.infer<typeof formSchema>) {
+    console.log(formData);
+    const { data, serverError } = await safeSubmitCourseForm(formData);
+    if (data) {
+      router.push(`/course/${props.course.id}`);
+      router.refresh();
+      toast.success("Cours édité avec succès");
+      return;
+    } else {
+      toast.error("oups", { description: serverError });
+    }
   }
 
   return (
