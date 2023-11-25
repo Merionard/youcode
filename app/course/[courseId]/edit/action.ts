@@ -1,9 +1,9 @@
 "use server";
 
 import { z } from "zod";
-import { formSchema } from "./CourseForm";
 import { prisma } from "@/db/prisma";
-import { action, authenticatedAction } from "@/lib/safe-action";
+import { authenticatedAction } from "@/lib/safe-action";
+import { formSchema } from "./courseSchema";
 
 export async function submitCourseForm(
   data: z.infer<typeof formSchema>,
