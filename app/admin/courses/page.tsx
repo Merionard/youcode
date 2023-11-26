@@ -1,11 +1,13 @@
 import {
   Layout,
+  LayoutActions,
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
 } from "@/components/layout/Layout";
 import { Typography } from "@/components/ui/Typography";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -34,6 +36,14 @@ export default async function ListLesson() {
       <LayoutHeader>
         <LayoutTitle>Liste des cours</LayoutTitle>
       </LayoutHeader>
+      <LayoutActions>
+        <Link
+          href="/admin/course/new"
+          className={buttonVariants({ variant: "secondary" })}
+        >
+          Nouveau cours
+        </Link>
+      </LayoutActions>
       <LayoutContent>
         <Card>
           <CardContent>
