@@ -4,6 +4,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/db/prisma";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 
 export default async function Course({
@@ -31,8 +32,8 @@ export default async function Course({
 
   return (
     <Layout>
-      <LayoutContent>
-        <Card>
+      <LayoutContent className="flex gap-3">
+        <Card className="flex-[2]">
           <CardHeader>
             <div className="flex gap-2 content-center">
               {course?.image && (
@@ -50,24 +51,32 @@ export default async function Course({
               </Typography>
               {course?.presentation}
             </>
-            <>
-              <Typography variant={"h3"} className="underline">
-                Leçons
-              </Typography>
-              <ul className="ms-3">
-                {course?.lessons.map((lesson) => (
-                  <li key={lesson.id}>
-                    {lesson.rank} - {lesson.name}
-                  </li>
-                ))}
-              </ul>
-            </>
+
             <Link
               href={`/course/${params.courseId}/edit`}
               className={buttonVariants({ variant: "outline" })}
             >
               Editer
             </Link>
+          </CardContent>
+        </Card>
+        <Card className="flex-1">
+          <CardHeader>
+            <Typography variant={"h2"}>Lessons</Typography>
+          </CardHeader>
+          <CardContent>
+            <ul className="ms-3">
+              {course?.lessons.map((lesson) => (
+                <div key={lesson.id} className=" flex justify-between">
+                  <li className="mb-2">
+                    {lesson.rank} - {lesson.name}
+                  </li>
+                  <Link href={`/course/${params.courseId}/lesson/${lesson.id}`}>
+                    <Pencil />
+                  </Link>
+                </div>
+              ))}
+            </ul>
           </CardContent>
         </Card>
       </LayoutContent>
