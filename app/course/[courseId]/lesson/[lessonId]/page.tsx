@@ -1,9 +1,10 @@
 import { Layout, LayoutContent } from "@/components/layout/Layout";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/db/prisma";
 import { getAuthSession } from "@/lib/auth";
 import { LessonForm } from "./lessonForm";
 import { Lesson } from "@prisma/client";
+import { Typography } from "@/components/ui/Typography";
 
 export default async function EditLessonPage({
   params,
@@ -24,7 +25,9 @@ export default async function EditLessonPage({
     <Layout>
       <LayoutContent>
         <Card>
-          <CardHeader>{lesson?.name}</CardHeader>
+          <CardHeader>
+            <Typography variant={"h2"}>Editer lesson</Typography>
+          </CardHeader>
           <CardContent>
             <LessonForm lesson={lesson} />
           </CardContent>

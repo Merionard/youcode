@@ -33,7 +33,6 @@ export const CourseForm = (props: { course: Course }) => {
   });
 
   async function onSubmit(formData: z.infer<typeof formSchema>) {
-    console.log(formData);
     const { data, serverError } = await safeSubmitCourseForm(formData);
     if (data) {
       router.push(`/course/${props.course.id}`);

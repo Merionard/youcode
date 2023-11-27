@@ -22,6 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SubmitButton } from "@/components/form/submitButton";
+import { editLesson } from "./action";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const LessonForm = ({ lesson }: { lesson: Lesson }) => {
   const form = useForm<z.infer<typeof LessonSchema>>({
@@ -29,11 +33,21 @@ export const LessonForm = ({ lesson }: { lesson: Lesson }) => {
     defaultValues: {
       name: lesson.name,
       state: lesson.state,
+      id: lesson.id,
     },
   });
+  const router = useRouter();
 
-  const onSubmit = (formData: z.infer<typeof LessonSchema>) => {
+  const onSubmit = async (formData: z.infer<typeof LessonSchema>) => {
     console.log(formData);
+    const { data, serverError } = await editLesson(formData);
+    if (data) {
+      toast.success(data);
+      router.push(`/course/${lesson.courseId}`);
+      router.refresh();
+    } else if (serverError) {
+      toast.error(serverError);
+    }
   };
   return (
     <Form {...form}>
@@ -78,6 +92,9 @@ export const LessonForm = ({ lesson }: { lesson: Lesson }) => {
             </FormItem>
           )}
         />
+        <div className="flex justify-end mt-2">
+          <SubmitButton>Valider</SubmitButton>
+        </div>
       </form>
     </Form>
   );
