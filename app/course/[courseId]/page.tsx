@@ -4,7 +4,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/db/prisma";
-import { Pencil } from "lucide-react";
+import { Pencil, PlusCircle } from "lucide-react";
 import Link from "next/link";
 
 export default async function Course({
@@ -62,16 +62,27 @@ export default async function Course({
         </Card>
         <Card className="flex-1">
           <CardHeader>
-            <Typography variant={"h2"}>Lessons</Typography>
+            <div className="flex justify-between items-center">
+              <Typography variant={"h2"}>Lessons</Typography>
+              <Link href={`/admin/courses/${params.courseId}/lessons/new`}>
+                <PlusCircle />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
             <ul className="ms-3">
               {course?.lessons.map((lesson) => (
-                <div key={lesson.id} className=" flex justify-between">
+                <div
+                  key={lesson.id}
+                  className=" flex justify-between items-baseline"
+                >
                   <li className="mb-2">
                     {lesson.rank} - {lesson.name}
                   </li>
-                  <Link href={`/course/${params.courseId}/lesson/${lesson.id}`}>
+                  <Link
+                    href={`/course/${params.courseId}/lesson/${lesson.id}`}
+                    className="ml-2"
+                  >
                     <Pencil />
                   </Link>
                 </div>
